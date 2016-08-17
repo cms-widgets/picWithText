@@ -1,7 +1,42 @@
 <!--编辑视图-->
 <div>
-    编辑视图
-
+    <h3>
+        <i class="fa fa-puzzle-piece"></i><strong>设置组件参数</strong>
+    </h3>
+    <div class="borderBoxs">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">链接按钮</label>
+                <div class="col-sm-3 checkbox">
+                    <label><input value="show" th:checked="${haveButton}=='true'?'checked'" name="haveButton"  type="checkbox"/>启用</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">跳转链接</label>
+                <div class="col-sm-6">
+                    <input name="linkUrl" th:value="${linkUrl}" class="form-control" th:disabled="${haveButton}=='true'?'disabled'" type="url">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">标题内容</label>
+                <div class="col-sm-9">
+                    <input name="title" th:value="${title}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">简介内容</label>
+                <div class="col-sm-9">
+                    <textarea name="content" th:text="${content}" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">选择图片</label>
+                <div class="col-sm-9 oneImage">
+                    <div id="imageTextUpload"></div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 <!--/编辑视图-->
 

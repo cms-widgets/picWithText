@@ -1,5 +1,18 @@
 <!--预览视图-->
-<div>
-    浏览视图
+<div class="imageText row">
+    <div class="col-md-6">
+        <img class="img-responsive center-block img70" th:src="${pcImg}" src="http://placehold.it/540x240" alt="微分销返利" title="微分销返利">
+    </div>
+    <div class="col-md-6">
+        <div class="ml40">
+            <h1 class="title category" th:text="${title}">社会化分销</h1>
+            <p class="desc summary" th:text="${content}">
+                基础的电商返利模式，解决品牌商会员返利问题，通过设置奖励机制，充分调动小伙伴积极性，分享高性价比商品，吸引潜在的客户进行购买，具有社会化分销属性。
+            </p>
+            <div th:class="${haveButton}=='true'?'detail':'detail hidden'" class="detail">
+                <a th:href="${linkUrl}" href="http://mall.huobanplus.com" class="btn btn-default btn-detail">详情介绍</a>
+            </div>
+        </div>
+    </div>
 </div>
 <!--/预览视图-->

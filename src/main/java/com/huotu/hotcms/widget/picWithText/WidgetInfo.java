@@ -11,10 +11,12 @@ package com.huotu.hotcms.widget.picWithText;
 import com.huotu.hotcms.widget.ComponentProperties;
 import com.huotu.hotcms.widget.Widget;
 import com.huotu.hotcms.widget.WidgetStyle;
+import com.huotu.hotcms.widget.common.ValidHelper;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,6 +32,13 @@ public class WidgetInfo implements Widget{
      * 指定风格的模板类型 如：html,text等
      */
     public static final String VALID_STYLE_TEMPLATE = "styleTemplate";
+
+    public static final String VALID_PC_IMG = "pcImg";
+    public static final String VALID_URL = "linkUrl";
+    public static final String VALID_HAVEBUTTON = "haveButton";
+    public static final String VALID_TITLE="title";
+    public static final String VALID_CONTENT="content";
+
 
     @Override
     public String groupId() {
@@ -78,6 +87,8 @@ public class WidgetInfo implements Widget{
     public Map<String, Resource> publicResources() {
         Map<String, Resource> map = new HashMap<>();
         map.put("thumbnail/defaultStyleThumbnail.png",new ClassPathResource("thumbnail/defaultStyleThumbnail.png",getClass().getClassLoader()));
+        map.put("thumbnail.png",new ClassPathResource("thumbnail.png",getClass().getClassLoader()));
+        map.put("js/widgetInfo.js",new ClassPathResource("js/widgetInfo.js",getClass().getClassLoader()));
         return map;
     }
 
@@ -85,6 +96,22 @@ public class WidgetInfo implements Widget{
     public void valid(String styleId, ComponentProperties componentProperties) throws IllegalArgumentException {
         WidgetStyle style = WidgetStyle.styleByID(this,styleId);
         //加入控件独有的属性验证
+        String pcImg = (String) componentProperties.get(VALID_PC_IMG);
+        String haveButton=(String) componentProperties.get(VALID_HAVEBUTTON);
+        String title=(String) componentProperties.get(VALID_TITLE);
+        String content=(String) componentProperties.get(VALID_CONTENT);
+        if(ValidHelper.isAnyOneEmpty(new Object[]{pcImg,haveButton,title,content})){
+            throw new IllegalArgumentException();
+        }
+        //是否显示按钮
+        if("show".equals(haveButton)){
+            String url = (String) componentProperties.get(VALID_URL);
+            if(StringUtils.isEmpty(url)){
+                throw new IllegalArgumentException();
+            }
+        }
+
+
 
     }
 
@@ -97,6 +124,11 @@ public class WidgetInfo implements Widget{
     @Override
     public ComponentProperties defaultProperties(ResourceService resourceService) throws IOException {
         ComponentProperties properties = new ComponentProperties();
+        properties.put(VALID_PC_IMG,"http://placehold.it/540x540");
+        properties.put(VALID_HAVEBUTTON,"true");
+        properties.put(VALID_TITLE,"图文标题");
+        properties.put(VALID_CONTENT,"图文内容");
+        properties.put(VALID_URL,"http://www.huobanplus.com");
         return properties;
     }
 
