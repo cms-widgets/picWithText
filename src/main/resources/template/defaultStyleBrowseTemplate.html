@@ -9,7 +9,7 @@
             <p class="desc summary" th:text="${content}">
                 基础的电商返利模式，解决品牌商会员返利问题，通过设置奖励机制，充分调动小伙伴积极性，分享高性价比商品，吸引潜在的客户进行购买，具有社会化分销属性。
             </p>
-            <div th:class="${haveButton}=='true'?'detail':'detail hidden'" class="detail">
+            <div th:class="${haveButton}?'detail':'detail hidden'">
                 <a th:href="${linkUrl}" href="http://mall.huobanplus.com" class="btn btn-default btn-detail">详情介绍</a>
             </div>
         </div>

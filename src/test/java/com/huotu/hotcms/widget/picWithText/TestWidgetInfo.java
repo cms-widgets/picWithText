@@ -43,6 +43,8 @@ public class TestWidgetInfo extends WidgetTest {
         WebElement title = editor.findElement(By.name("title"));
         WebElement content = editor.findElement(By.name("content"));
         WebElement linkUrl = editor.findElement(By.name("linkUrl"));
+        title.clear();
+        content.clear();
         Actions actions = new Actions(driver);
         actions.sendKeys(title, "abc").build().perform();
         actions.sendKeys(content, "abc").build().perform();
@@ -51,14 +53,14 @@ public class TestWidgetInfo extends WidgetTest {
         Map map = currentWidgetProperties.get();
         assertThat(map.get("title").toString()).isEqualTo("abc");
         assertThat(map.get("content").toString()).isEqualTo("abc");
-        assertThat(map.get("haveButton").toString()).isEqualTo("true");
-        assertThat(linkUrl.getAttribute("disabled")).isEqualTo(null);
+        assertThat(map.get("haveButton").toString()).isEqualTo("false");
+        assertThat(linkUrl.getAttribute("disabled")).isEqualTo("true");
         if (map.get("haveButton").toString().equals("true")){
             assertThat(map.get("linkUrl").toString()).isEqualTo("abc");
         }
 
         haveButton.click();
-        assertThat(linkUrl.getAttribute("disabled")).isEqualTo("true");
+        assertThat(linkUrl.getAttribute("disabled")).isEqualTo(null);
     }
 
     @Override
@@ -80,7 +82,8 @@ public class TestWidgetInfo extends WidgetTest {
     }
 
     @Override
-    protected void editorBrowseWork(Widget widget, Function<ComponentProperties, WebElement> uiChanger) throws IOException {
+    protected void editorBrowseWork(Widget widget, Function<ComponentProperties, WebElement> uiChanger
+            , Supplier<Map<String, Object>> currentWidgetProperties) throws IOException {
         ComponentProperties properties = widget.defaultProperties(resourceService);
         WebElement webElement = uiChanger.apply(properties);
 

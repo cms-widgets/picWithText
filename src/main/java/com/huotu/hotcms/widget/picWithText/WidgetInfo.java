@@ -97,7 +97,7 @@ public class WidgetInfo implements Widget{
         WidgetStyle style = WidgetStyle.styleByID(this,styleId);
         //加入控件独有的属性验证
         String pcImg = (String) componentProperties.get(VALID_PC_IMG);
-        String haveButton=(String) componentProperties.get(VALID_HAVEBUTTON);
+        String haveButton = componentProperties.get(VALID_HAVEBUTTON).toString();
         String title=(String) componentProperties.get(VALID_TITLE);
         String content=(String) componentProperties.get(VALID_CONTENT);
         if(ValidHelper.isAnyOneEmpty(new Object[]{pcImg,haveButton,title,content})){
@@ -110,9 +110,6 @@ public class WidgetInfo implements Widget{
                 throw new IllegalArgumentException();
             }
         }
-
-
-
     }
 
     @Override
