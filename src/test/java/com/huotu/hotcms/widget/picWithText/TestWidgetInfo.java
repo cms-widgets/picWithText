@@ -9,9 +9,13 @@
 
 package com.huotu.hotcms.widget.picWithText;
 
+import com.huotu.hotcms.service.entity.Gallery;
+import com.huotu.hotcms.service.repository.GalleryRepository;
+import com.huotu.hotcms.widget.CMSContext;
 import com.huotu.hotcms.widget.ComponentProperties;
 import com.huotu.hotcms.widget.Widget;
 import com.huotu.hotcms.widget.WidgetStyle;
+import com.huotu.widget.test.Editor;
 import com.huotu.widget.test.WidgetTest;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
@@ -37,19 +41,23 @@ public class TestWidgetInfo extends WidgetTest {
     }
 
     @Override
-    protected void editorWork(Widget widget, WebElement editor, Supplier<Map<String, Object>> currentWidgetProperties) {
-        WebElement haveButton = editor.findElement(By.name("haveButton"));
+    protected void editorWork(Widget widget, Editor editor, Supplier<Map<String, Object>> currentWidgetProperties) throws IOException {
+        WebElement haveButton = editor.getWebElement().findElement(By.name("haveButton"));
         haveButton.click();
-        WebElement title = editor.findElement(By.name("title"));
-        WebElement content = editor.findElement(By.name("content"));
-        WebElement linkUrl = editor.findElement(By.name("linkUrl"));
+        WebElement title = editor.getWebElement().findElement(By.name("title"));
+        WebElement content = editor.getWebElement().findElement(By.name("content"));
+        WebElement linkUrl = editor.getWebElement().findElement(By.name("linkUrl"));
         title.clear();
         content.clear();
         Actions actions = new Actions(driver);
         actions.sendKeys(title, "abc").build().perform();
         actions.sendKeys(content, "abc").build().perform();
         actions.sendKeys(linkUrl, "abc").build().perform();
-
+        GalleryRepository galleryRepository = CMSContext.RequestContext().getWebApplicationContext()
+                .getBean(GalleryRepository.class);
+        Gallery gallery = galleryRepository.findByCategory_SiteAndSerial(CMSContext.RequestContext().getSite()
+                , (String) widget.defaultProperties(resourceService).get("serial"));
+        editor.chooseGallery("serial", gallery);
         Map map = currentWidgetProperties.get();
         assertThat(map.get("title").toString()).isEqualTo("abc");
         assertThat(map.get("content").toString()).isEqualTo("abc");
@@ -67,12 +75,10 @@ public class TestWidgetInfo extends WidgetTest {
     protected void browseWork(Widget widget, WidgetStyle style, Function<ComponentProperties, WebElement> uiChanger) throws IOException {
         ComponentProperties properties = widget.defaultProperties(resourceService);
         WebElement webElement = uiChanger.apply(properties);
-        List<WebElement> img = webElement.findElements(By.className("img-responsive"));
         List<WebElement> title = webElement.findElements(By.className("title"));
         List<WebElement> content = webElement.findElements(By.className("desc"));
         List<WebElement> url = webElement.findElements(By.className("btn"));
         List<WebElement> haveButton = webElement.findElements(By.className("detail"));
-        Assertions.assertThat(img.get(0).getAttribute("src")).isEqualToIgnoringCase("http://placehold.it/540x540");
         Assertions.assertThat(title.get(0).getText()).isEqualToIgnoringCase("图文标题");
         Assertions.assertThat(content.get(0).getText()).isEqualToIgnoringCase("图文内容");
         Assertions.assertThat(haveButton.get(0).getAttribute("class")).isEqualToIgnoringCase("detail");

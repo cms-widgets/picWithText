@@ -18,19 +18,19 @@ import java.util.Locale;
 /**
  * @author CJ
  */
-public class DefaultWidgetStyle implements WidgetStyle{
+public class ImgRightWidgetStyle implements WidgetStyle {
 
     @Override
     public String id() {
-        return "picWithTextDefaultStyle";
+        return "picWithTextDefaultStyle2";
     }
 
     @Override
     public String name(Locale locale) {
         if (locale.equals(Locale.CHINA)) {
-            return "默认样式";
+            return "图靠右样式";
         }
-        return "default";
+        return "pic margin right";
     }
 
     @Override
@@ -43,7 +43,7 @@ public class DefaultWidgetStyle implements WidgetStyle{
 
     @Override
     public Resource thumbnail() {
-        return new ClassPathResource("/thumbnail/defaultStyleThumbnail.png", getClass().getClassLoader());
+        return new ClassPathResource("/thumbnail/picWithText2.png", getClass().getClassLoader());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class DefaultWidgetStyle implements WidgetStyle{
 
     @Override
     public Resource browseTemplate() {
-        return new ClassPathResource("/template/defaultStyleBrowseTemplate.html", getClass().getClassLoader());
+        return new ClassPathResource("/template/ImgRightStyleBrowseTemplate.html", getClass().getClassLoader());
     }
 
 }

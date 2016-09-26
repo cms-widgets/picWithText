@@ -1,10 +1,5 @@
 <!--预览视图-->
-<div class="imageText row">
-    <div class="col-md-6">
-        <img class="img-responsive center-block img70" th:each="item:${dataList}" res:src="${item.thumbUri}"
-             src="http://placehold.it/540x240"
-             alt="微分销返利" title="微分销返利">
-    </div>
+<div class="imageText">
     <div class="col-md-6">
         <div class="ml40">
             <h1 class="title category" th:text="${title}">社会化分销</h1>
@@ -16,6 +11,11 @@
                 <a th:href="${linkUrl}" href="http://mall.huobanplus.com" class="btn btn-default btn-detail">详情介绍</a>
             </div>
         </div>
+    </div>
+    <div class="col-md-6">
+        <img class="img-responsive center-block img70" th:each="item:${dataList}" res:src="${item.thumbUri}"
+             src="http://placehold.it/540x240"
+             alt="微分销返利" title="微分销返利">
     </div>
 </div>
 <!--/预览视图-->
